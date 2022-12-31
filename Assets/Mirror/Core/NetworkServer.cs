@@ -33,10 +33,11 @@ namespace Mirror
         static double lastSendTime;
 
         /// <summary>Connection to host mode client (if any)</summary>
-        public static NetworkConnectionToClient localConnection { get; private set; }
+        public static LocalConnectionToClient localConnection { get; private set; }
 
         /// <summary>True is a local client is currently active on the server</summary>
-        public static bool localClientActive => localConnection != null;
+        [Obsolete("NetworkServer.localClientActive was renamed to .activeHost to be more obvious")] // DEPRECATED 2022-12-12
+        public static bool localClientActive => activeHost;
 
         /// <summary>Dictionary of all server connections, with connectionId as key</summary>
         public static Dictionary<int, NetworkConnectionToClient> connections =
@@ -55,8 +56,12 @@ namespace Mirror
         // see also: https://github.com/vis2k/Mirror/pull/2595
         public static bool dontListen;
 
-        /// <summary>active checks if the server has been started</summary>
+        /// <summary>active checks if the server has been started either has standalone or as host server.</summary>
         public static bool active { get; internal set; }
+
+        /// <summary>active checks if the server has been started in host mode.</summary>
+        // naming consistent with NetworkClient.activeHost.
+        public static bool activeHost => localConnection != null;
 
         // scene loading
         public static bool isLoadingScene;
@@ -140,17 +145,8 @@ namespace Mirror
 
         // calls OnStartClient for all SERVER objects in host mode once.
         // client doesn't get spawn messages for those, so need to call manually.
-        public static void ActivateHostScene()
-        {
-            foreach (NetworkIdentity identity in spawned.Values)
-            {
-                if (!identity.isClient)
-                {
-                    // Debug.Log($"ActivateHostScene {identity.netId} {identity}");
-                    NetworkClient.CheckForStartClient(identity);
-                }
-            }
-        }
+        [Obsolete("NetworkServer.ActivateHostScene was moved to HostMode.ActivateHostScene")] // DEPRECATED 2022-12-12
+        public static void ActivateHostScene() => HostMode.ActivateHostScene();
 
         internal static void RegisterMessageHandlers()
         {
@@ -702,8 +698,7 @@ namespace Mirror
 
         internal static bool GetNetworkIdentity(GameObject go, out NetworkIdentity identity)
         {
-            identity = go.GetComponent<NetworkIdentity>();
-            if (identity == null)
+            if (!go.TryGetComponent<NetworkIdentity>(out identity))
             {
                 Debug.LogError($"GameObject {go.name} doesn't have NetworkIdentity.");
                 return false;
@@ -760,8 +755,7 @@ namespace Mirror
         // on this playerControllerId for this connection, this will fail.
         public static bool AddPlayerForConnection(NetworkConnectionToClient conn, GameObject player)
         {
-            NetworkIdentity identity = player.GetComponent<NetworkIdentity>();
-            if (identity == null)
+            if (!player.TryGetComponent<NetworkIdentity>(out NetworkIdentity identity))
             {
                 Debug.LogWarning($"AddPlayer: playerGameObject has no NetworkIdentity. Please add a NetworkIdentity to {player}");
                 return false;
@@ -818,8 +812,7 @@ namespace Mirror
         // safely be used while changing scenes.
         public static bool ReplacePlayerForConnection(NetworkConnectionToClient conn, GameObject player, bool keepAuthority = false)
         {
-            NetworkIdentity identity = player.GetComponent<NetworkIdentity>();
-            if (identity == null)
+            if (!player.TryGetComponent<NetworkIdentity>(out NetworkIdentity identity))
             {
                 Debug.LogError($"ReplacePlayer: playerGameObject has no NetworkIdentity. Please add a NetworkIdentity to {player}");
                 return false;
@@ -1144,20 +1137,19 @@ namespace Mirror
             // verify if we can spawn this
             if (Utils.IsPrefab(obj))
             {
-                Debug.LogError($"GameObject {obj.name} is a prefab, it can't be spawned. Instantiate it first.");
+                Debug.LogError($"GameObject {obj.name} is a prefab, it can't be spawned. Instantiate it first.", obj);
                 return;
             }
 
             if (!active)
             {
-                Debug.LogError($"SpawnObject for {obj}, NetworkServer is not active. Cannot spawn objects without an active server.");
+                Debug.LogError($"SpawnObject for {obj}, NetworkServer is not active. Cannot spawn objects without an active server.", obj);
                 return;
             }
 
-            NetworkIdentity identity = obj.GetComponent<NetworkIdentity>();
-            if (identity == null)
+            if (!obj.TryGetComponent<NetworkIdentity>(out NetworkIdentity identity))
             {
-                Debug.LogError($"SpawnObject {obj} has no NetworkIdentity. Please add a NetworkIdentity to {obj}");
+                Debug.LogError($"SpawnObject {obj} has no NetworkIdentity. Please add a NetworkIdentity to {obj}", obj);
                 return;
             }
 
@@ -1168,10 +1160,12 @@ namespace Mirror
                 return;
             }
 
-            // Spawn should only be called once per netId
+            // Spawn should only be called once per netId.
+            // calling it twice would lead to undefined behaviour.
+            // https://github.com/MirrorNetworking/Mirror/pull/3205
             if (spawned.ContainsKey(identity.netId))
             {
-                Debug.LogWarning($"{identity} with netId={identity.netId} was already spawned.");
+                Debug.LogWarning($"{identity} with netId={identity.netId} was already spawned.", identity.gameObject);
                 return;
             }
 
@@ -1230,8 +1224,7 @@ namespace Mirror
         // This is the same as calling NetworkIdentity.AssignClientAuthority on the spawned object.
         public static void Spawn(GameObject obj, GameObject ownerPlayer)
         {
-            NetworkIdentity identity = ownerPlayer.GetComponent<NetworkIdentity>();
-            if (identity == null)
+            if (!ownerPlayer.TryGetComponent<NetworkIdentity>(out NetworkIdentity identity))
             {
                 Debug.LogError("Player object has no NetworkIdentity");
                 return;
@@ -1272,7 +1265,10 @@ namespace Mirror
             // first pass: activate all scene objects
             foreach (NetworkIdentity identity in identities)
             {
-                if (Utils.IsSceneObject(identity))
+                // only spawn scene objects which haven't been spawned yet.
+                // SpawnObjects may be called multiple times for additive scenes.
+                // https://github.com/MirrorNetworking/Mirror/issues/3318
+                if (Utils.IsSceneObject(identity) &&identity.netId == 0)
                 {
                     // Debug.Log($"SpawnObjects sceneId:{identity.sceneId:X} name:{identity.gameObject.name}");
                     identity.gameObject.SetActive(true);
@@ -1292,10 +1288,15 @@ namespace Mirror
             // second pass: spawn all scene objects
             foreach (NetworkIdentity identity in identities)
             {
-                if (Utils.IsSceneObject(identity))
+                // only spawn scene objects which haven't been spawned yet.
+                // SpawnObjects may be called multiple times for additive scenes.
+                // https://github.com/MirrorNetworking/Mirror/issues/3318
+                if (Utils.IsSceneObject(identity) && identity.netId == 0)
+                {
                     // pass connection so that authority is not lost when server loads a scene
                     // https://github.com/vis2k/Mirror/pull/2987
                     Spawn(identity.gameObject, identity.connectionToClient);
+                }
             }
 
             return true;
@@ -1448,7 +1449,7 @@ namespace Mirror
             identity.ClearObservers();
 
             // in host mode, call OnStopClient/OnStopLocalPlayer manually
-            if (NetworkClient.active && localClientActive)
+            if (NetworkClient.active && activeHost)
             {
                 if (identity.isLocalPlayer)
                     identity.OnStopLocalPlayer();
