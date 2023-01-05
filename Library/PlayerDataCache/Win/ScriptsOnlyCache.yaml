@@ -1,10 +1,12 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
-    - QuickStart.Player
-    - QuickStart.SceneScript
+    - QuickStartProject.Scripts.PlayerScript
+    - QuickStartProject.Scripts.SceneScript
     Mirror.Components.dll:
     - Mirror.NetworkTransform
+    Mirror.Editor.dll:
+    - Mirror.NetworkBehaviourInspector
     Mirror.Transports.dll:
     - kcp2k.KcpTransport
     Mirror.dll:
@@ -56,6 +58,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 64
       Script: {instanceID: 0}
+    - Class: 65
+      Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
     - Class: 89
@@ -81,29 +85,29 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 2522}
     - Class: 114
-      Script: {instanceID: 2658}
+      Script: {instanceID: 2526}
     - Class: 114
-      Script: {instanceID: 3086}
+      Script: {instanceID: 2660}
     - Class: 114
-      Script: {instanceID: 3190}
+      Script: {instanceID: 3088}
     - Class: 114
-      Script: {instanceID: 3290}
+      Script: {instanceID: 3192}
     - Class: 114
-      Script: {instanceID: 4250}
+      Script: {instanceID: 3292}
     - Class: 114
-      Script: {instanceID: 4386}
+      Script: {instanceID: 4252}
     - Class: 114
-      Script: {instanceID: 4506}
+      Script: {instanceID: 4358}
     - Class: 114
-      Script: {instanceID: 4686}
+      Script: {instanceID: 4390}
     - Class: 114
-      Script: {instanceID: 4722}
+      Script: {instanceID: 4510}
     - Class: 114
-      Script: {instanceID: 4834}
+      Script: {instanceID: 4690}
     - Class: 114
-      Script: {instanceID: 17886}
+      Script: {instanceID: 4726}
     - Class: 114
-      Script: {instanceID: 23036}
+      Script: {instanceID: 4838}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -429,6 +433,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: CanvasScaler
+  - hash:
+      serializedVersion: 2
+      Hash: f794b63f72cda046cdbf57a590918f96
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuickStartProject.Scripts
+    className: SceneScript
   - hash:
       serializedVersion: 2
       Hash: 4d16cfbaa8e821a2b370e80844a0e9bc
@@ -1049,6 +1059,12 @@ ScriptsOnlyBuild:
     className: ControlPlayableAsset
   - hash:
       serializedVersion: 2
+      Hash: 0d971ea7ca1e220c641ba7061e2f9e1c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: QuickStartProject.Scripts
+    className: PlayerScript
+  - hash:
+      serializedVersion: 2
       Hash: ef5c43f921427d03730f6ea4c848f07d
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -1341,18 +1357,6 @@ ScriptsOnlyBuild:
     assemblyName: Mirror.Examples.dll
     namespaceName: Mirror.Examples.NetworkRoom
     className: NetworkRoomPlayerExt
-  - hash:
-      serializedVersion: 2
-      Hash: d586e29eeecb99bc8d910716020a840a
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: QuickStart
-    className: Player
-  - hash:
-      serializedVersion: 2
-      Hash: a410deb39c2e03184a1d93a6e331c597
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: QuickStart
-    className: SceneScript
   platform: 5
   scenePathNames:
   - Assets/QuickStartProject/Scenes/QuickStartProject.unity
