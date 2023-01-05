@@ -59,6 +59,7 @@
      <Compile Include="Assets\Mirror\Transports\KCP\kcp2k\highlevel\Common.cs" />
      <Compile Include="Assets\Mirror\Transports\KCP\kcp2k\highlevel\KcpServerConnection.cs" />
      <Compile Include="Assets\Mirror\Transports\KCP\kcp2k\empty\KcpClientConnectionNonAlloc.cs" />
+     <Compile Include="Assets\Mirror\Transports\KCP\kcp2k\highlevel\KcpConfig.cs" />
      <Compile Include="Assets\Mirror\Transports\KCP\kcp2k\highlevel\Extensions.cs" />
      <Compile Include="Assets\Mirror\Transports\KCP\kcp2k\kcp\AssemblyInfo.cs" />
      <Compile Include="Assets\Mirror\Transports\KCP\kcp2k\kcp\Segment.cs" />
@@ -72,7 +73,6 @@
      <Compile Include="Assets\Mirror\Transports\KCP\kcp2k\highlevel\NonAlloc\KcpServerNonAlloc.cs" />
      <Compile Include="Assets\Mirror\Transports\KCP\kcp2k\kcp\Utils.cs" />
      <Compile Include="Assets\Mirror\Transports\KCP\kcp2k\highlevel\Log.cs" />
-     <Compile Include="Assets\Mirror\Transports\KCP\kcp2k\highlevel\KcpConfig.cs" />
      <None Include="Assets\Mirror\Transports\KCP\kcp2k\KCP.asmdef" />
      <None Include="Assets\Mirror\Transports\KCP\kcp2k\LICENSE.txt" />
      <None Include="Assets\Mirror\Transports\KCP\kcp2k\VERSION.txt" />

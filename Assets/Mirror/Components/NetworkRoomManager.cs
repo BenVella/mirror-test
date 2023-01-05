@@ -10,9 +10,15 @@ namespace Mirror
     /// This is a specialized NetworkManager that includes a networked room.
     /// </summary>
     /// <remarks>
-    /// <para>The room has slots that track the joined players, and a maximum player count that is enforced. It requires that the NetworkRoomPlayer component be on the room player objects.</para>
-    /// <para>NetworkRoomManager is derived from NetworkManager, and so it implements many of the virtual functions provided by the NetworkManager class. To avoid accidentally replacing functionality of the NetworkRoomManager, there are new virtual functions on the NetworkRoomManager that begin with "OnRoom". These should be used on classes derived from NetworkRoomManager instead of the virtual functions on NetworkManager.</para>
-    /// <para>The OnRoom*() functions have empty implementations on the NetworkRoomManager base class, so the base class functions do not have to be called.</para>
+    /// <para>The room has slots that track the joined players, and a maximum player count that is enforced.
+    /// It requires that the NetworkRoomPlayer component be on the room player objects.</para>
+    /// <para>NetworkRoomManager is derived from NetworkManager, and so it implements many of the virtual
+    /// functions provided by the NetworkManager class. To avoid accidentally replacing functionality of
+    /// the NetworkRoomManager, there are new virtual functions on the NetworkRoomManager that begin with
+    /// "OnRoom". These should be used on classes derived from NetworkRoomManager instead of the virtual
+    /// functions on NetworkManager.</para>
+    /// <para>The OnRoom*() functions have empty implementations on the NetworkRoomManager base class,
+    /// so the base class functions do not have to be called.</para>
     /// </remarks>
     [AddComponentMenu("Network/Network Room Manager")]
     [HelpURL("https://mirror-networking.gitbook.io/docs/components/network-room-manager")]

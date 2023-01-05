@@ -57,6 +57,7 @@
      <Compile Include="Assets\Mirror\Editor\SyncObjectCollectionsDrawer.cs" />
      <Compile Include="Assets\Mirror\Editor\SyncVarAttributeDrawer.cs" />
      <Compile Include="Assets\Mirror\Editor\NetworkInformationPreview.cs" />
+     <Compile Include="Assets\Mirror\Editor\Welcome.cs" />
      <Compile Include="Assets\Mirror\Editor\EditorHelper.cs" />
      <Compile Include="Assets\Mirror\Editor\Empty\Logging\LogLevelWindow.cs" />
      <Compile Include="Assets\Mirror\Editor\Empty\EnterPlayModeSettingsCheck.cs" />
@@ -70,7 +71,6 @@
      <Compile Include="Assets\Mirror\Editor\NetworkScenePostProcess.cs" />
      <Compile Include="Assets\Mirror\Editor\Empty\LogLevelWindow.cs" />
      <Compile Include="Assets\Mirror\Editor\Empty\Logging\LogSettingsEditor.cs" />
-     <Compile Include="Assets\Mirror\Editor\Welcome.cs" />
      <None Include="Assets\Mirror\Editor\Mirror.Editor.asmdef" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.27f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

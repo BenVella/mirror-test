@@ -107,8 +107,8 @@
      <Compile Include="Assets\Mirror\Core\Empty\Cloud\NetworkManagerListServer.cs" />
      <Compile Include="Assets\Mirror\Core\Empty\Cloud\ServerListManager.cs" />
      <Compile Include="Assets\Mirror\Core\Messages.cs" />
-     <Compile Include="Assets\Mirror\Core\Empty\ClientScene.cs" />
      <Compile Include="Assets\Mirror\Core\Empty\Cloud\BaseApi.cs" />
+     <Compile Include="Assets\Mirror\Core\Empty\ClientScene.cs" />
      <Compile Include="Assets\Mirror\Core\Empty\Cloud\ApiUpdater.cs" />
      <Compile Include="Assets\Mirror\Core\Empty\Cloud\Logger.cs" />
      <Compile Include="Assets\Mirror\Core\Empty\SyncVarNetworkBehaviour.cs" />
@@ -134,6 +134,7 @@
      <Compile Include="Assets\Mirror\Core\NetworkConnectionToClient.cs" />
      <Compile Include="Assets\Mirror\Core\SnapshotInterpolation\Snapshot.cs" />
      <Compile Include="Assets\Mirror\Core\Empty\Cloud\ListServerBaseApi.cs" />
+     <Compile Include="Assets\Mirror\Core\HostMode.cs" />
      <Compile Include="Assets\Mirror\Core\Empty\Cloud\Ball.cs" />
      <Compile Include="Assets\Mirror\Core\NetworkReaderExtensions.cs" />
      <Compile Include="Assets\Mirror\Core\Tools\Vector3Long.cs" />
@@ -155,7 +156,6 @@
      <Compile Include="Assets\Mirror\Core\Tools\DeltaCompression.cs" />
      <Compile Include="Assets\Mirror\Core\Empty\Cloud\ServerListUIItem.cs" />
      <Compile Include="Assets\Mirror\Core\Empty\Logging\ConsoleColorLogHandler.cs" />
-     <Compile Include="Assets\Mirror\Core\HostMode.cs" />
      <None Include="Assets\Mirror\Core\Mirror.asmdef" />
      <None Include="Assets\Mirror\Core\Tools\Readme.txt" />
  <Reference Include="UnityEngine">
